@@ -12,6 +12,7 @@ public class ActionPromptInputs implements AlfredActionInterface {
                 while(scanner.hasNextLine()) {
                     String input = scanner.nextLine();
                     start(input);
+                    monitor(input);
                     zip(input);
                     unzip(input);
                     purge(input);
