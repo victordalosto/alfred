@@ -1,5 +1,7 @@
 package alfred.functionalities;
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import alfred.interfaces.AlfredAction;
@@ -33,16 +35,20 @@ public class ActionPrompt implements AlfredAction {
         if (input.toLowerCase().startsWith("start")) {
             System.out.print("Iniciando Alfred Monitor\n");
             AlfredBackpack.setRunMonitor(true);
-            AlfredBackpack.getListOfStartPrograms().forEach(p -> {
-                String cmd = p;
-                if (p.toString().toLowerCase().endsWith(".bat")) {
-                    cmd = "cmd /c start " + cmd;
-                System.out.println("Rodando: " + cmd);
+            AlfredBackpack.getListOfStartPrograms().forEach(filePath -> {
                 try {
-                    Runtime.getRuntime().exec(cmd);
+                    System.out.println(filePath);
+                    if (filePath.toString().toLowerCase().endsWith(".bat")) {
+                        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "start", "cmd.exe", "/c", filePath);
+                        builder.directory(new File(filePath).getParentFile());
+                        builder.start();
+                    } else {
+                        ProcessBuilder builder = new ProcessBuilder(Arrays.asList("cmd", "/c", "start", filePath));
+                        builder.directory(new File(filePath).getParentFile());
+                        builder.start();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
                 }
             });
         }

@@ -48,8 +48,7 @@ public class CopyService extends TimerTask {
                                         entry -> entry.toString(),
                                         (a1, a2) -> a1)); // Avoid duplicateKeyException
         } catch (IOException e){
-            System.out.println("Erro ao rodar get: ");
-            return null;
+            throw new RuntimeException();
         }
     }
 
