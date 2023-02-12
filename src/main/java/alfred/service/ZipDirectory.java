@@ -39,7 +39,7 @@ public class ZipDirectory {
         try (ZipOutputStream zos = new ZipOutputStream(new CipherOutputStream(fos, cipher))) {
             zip(directory, directory, zos);
         }
-        System.out.println("Arquivo zipado: " + zipFile);
+        System.out.println("  > Arquivo zipado: " + zipFile);
     }
 
 

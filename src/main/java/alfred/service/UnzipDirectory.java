@@ -15,7 +15,7 @@ public class UnzipDirectory {
 
     private static final String ALGORITHM = "AES";
 
-    
+
     public static void executa(String chave) {
         byte [] KEY = Hash.generateHash(chave);
         AlfredBackpack.getDestinyDirectories().forEach(dir -> {
@@ -49,7 +49,7 @@ public class UnzipDirectory {
                     }
                 }
             }
-            System.out.println("Arquivo descompactado: " + outputDirectory);
+            System.out.println("  > Arquivo descompactado: " + outputDirectory);
         }
     }
 }
