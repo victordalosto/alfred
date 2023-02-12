@@ -2,6 +2,6 @@ package alfred.models;
 
 public enum ModelConfig {
 
-    FORMAT, MONITOR, DESTINY, TIME
+    START, FORMAT, MONITOR, DESTINY, TIME, PURGE
 
 }

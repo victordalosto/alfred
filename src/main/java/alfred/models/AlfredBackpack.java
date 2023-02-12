@@ -3,27 +3,36 @@ import java.util.Properties;
 import java.util.Set;
 import alfred.service.InputService;
 import lombok.Getter;
+import lombok.Setter;
 
 
 public class AlfredBackpack {
 
     public static void init(Properties properties) {
+        listOfStartPrograms = InputService.getInput(properties, ModelConfig.START);
         listOfFormatFiles = InputService.getInput(properties, ModelConfig.FORMAT);
         destinyDirectories = InputService.getInput(properties, ModelConfig.DESTINY);
         monitoredDirectories = InputService.getInput(properties, ModelConfig.MONITOR);
+        purgeDirectories = InputService.getInput(properties, ModelConfig.PURGE);
         loopTime = (long) (InputService.getInput(properties, ModelConfig.TIME)
                                        .stream().mapToLong(Long::parseLong)
                                        .min().getAsLong() * 1000);
     }
 
+
     @Getter
     private static long loopTime = 60;
+    @Getter
+    private static Set<String> listOfStartPrograms;
     @Getter
     private static Set<String> listOfFormatFiles;
     @Getter
     private static Set<String> destinyDirectories;
     @Getter
     private static Set<String> monitoredDirectories;
-
+    @Getter
+    private static Set<String> purgeDirectories;
+    @Getter @Setter
+    private static boolean runMonitor = false;
 
 }

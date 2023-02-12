@@ -1,4 +1,4 @@
-package alfred.functionalities;
+package alfred.service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,15 +13,16 @@ import java.util.stream.Stream;
 import alfred.models.AlfredBackpack;
 
 
-public class ActionCopy extends TimerTask {
-
+public class CopyService extends TimerTask {
 
     @Override
     public void run() {
-        Map<String, String> filesToCopy = mapValidFilesToCopy(AlfredBackpack.getMonitoredDirectories());
-        Map<String, String> filesRemove = mapValidFilesToCopy(AlfredBackpack.getDestinyDirectories());
-        filesToCopy.keySet().removeAll(filesRemove.keySet());
-        copy(filesToCopy);
+        if (AlfredBackpack.isRunMonitor()) {
+            Map<String, String> filesToCopy = mapValidFilesToCopy(AlfredBackpack.getMonitoredDirectories());
+            Map<String, String> filesRemove = mapValidFilesToCopy(AlfredBackpack.getDestinyDirectories());
+            filesToCopy.keySet().removeAll(filesRemove.keySet());
+            copy(filesToCopy);
+        }
     }
 
 
@@ -47,17 +48,19 @@ public class ActionCopy extends TimerTask {
                                         entry -> entry.toString(),
                                         (a1, a2) -> a1)); // Avoid duplicateKeyException
         } catch (IOException e){
-            throw new RuntimeException(e);
+            System.out.println("Erro ao rodar get: ");
+            return null;
         }
     }
 
+    
 
     private void copy(Map<String, String> filesToCopy) {
         filesToCopy.forEach((key, filePath) -> {
             AlfredBackpack.getDestinyDirectories().forEach(dest -> {
                 try {
                     Files.copy(Paths.get(filePath), 
-                               Paths.get(dest, Paths.get(filePath).getFileName().toString()), 
+                               Paths.get(dest, "monitor", Paths.get(filePath).getFileName().toString()), 
                                StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -66,9 +69,5 @@ public class ActionCopy extends TimerTask {
         });
 
     }
-
-
-    
-
     
 }
