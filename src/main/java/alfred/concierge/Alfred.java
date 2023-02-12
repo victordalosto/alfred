@@ -1,9 +1,8 @@
-package alfred.bootstrap;
+package alfred.concierge;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-import alfred.models.AlfredBackpack;
 
 
 public class Alfred {
@@ -11,8 +10,7 @@ public class Alfred {
     
     public static void start(String path) throws Exception {
         Properties properties = getAlfredProperties(path);
-        AlfredBackpack.init(properties);
-        AlfredFunctionalities.init();
+        AlfredFunctionalities.startExecuting(properties);
     }
 
 
@@ -29,8 +27,5 @@ public class Alfred {
         }
         throw new RuntimeException();
     }
-
-
-
 
 }

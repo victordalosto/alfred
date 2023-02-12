@@ -1,5 +1,4 @@
-package alfred.functionalities;
-
+package alfred.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,19 +7,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import alfred.interfaces.AlfredAction;
 import alfred.models.AlfredBackpack;
 
-public class ActionPurge implements AlfredAction {
+
+public class PurgeService {
 
 
-    @Override
-    public void executa() {
+    public static void limpa() {
         AlfredBackpack.getPurgeDirectories().forEach(dir -> {
-            walkPurgeDirectories(dir).forEach(file -> {
-                safePurgeDir(file.toFile());
-            });
+            walkPurgableDirectories(dir).forEach(file -> safePurgeFiles(file));
             deleteEmptyDirectories(dir);
         });
         AlfredBackpack.getDestinyDirectories().forEach(dir -> {
@@ -30,25 +25,28 @@ public class ActionPurge implements AlfredAction {
 
 
     
-
-    private List<Path> walkPurgeDirectories(String dir) {
+    private static List<File> walkPurgableDirectories(String dir) {
         try (Stream<Path> stream = Files.walk(Paths.get(dir))) {
             return stream
-              .filter(file -> AlfredBackpack.getListOfFormatFiles().stream()
+              .filter(file -> AlfredBackpack.getListOfFormatFiles()
+                                           .stream()
                                            .anyMatch(filter -> file.toString().toLowerCase()
-                                           .endsWith(filter.toString().toLowerCase())))
-              .collect(Collectors.toList());
+                                                .endsWith(filter.toString().toLowerCase())))
+                                           .map(Path::toFile)
+                                           .collect(Collectors.toList());
         } catch (IOException e){
             throw new RuntimeException(e);
         }
     }
 
-    private void safePurgeDir(File file) {
+
+
+    private static void safePurgeFiles(File file) {
         File[] contents = file.listFiles();
         if (contents != null) {
             for (File f : contents) {
                 if (! Files.isSymbolicLink(f.toPath())) {
-                    safePurgeDir(f);
+                    safePurgeFiles(f);
                 }
             }
         }

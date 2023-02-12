@@ -8,22 +8,22 @@ import lombok.Setter;
 
 public class AlfredBackpack {
 
-    public static void init(Properties properties) {
-        listOfStartPrograms = InputService.getInput(properties, ModelConfig.START);
+    public static void initializeDependences(Properties properties) {
+        purgeDirectories = InputService.getInput(properties, ModelConfig.PURGE);
         listOfFormatFiles = InputService.getInput(properties, ModelConfig.FORMAT);
         destinyDirectories = InputService.getInput(properties, ModelConfig.DESTINY);
         monitoredDirectories = InputService.getInput(properties, ModelConfig.MONITOR);
-        purgeDirectories = InputService.getInput(properties, ModelConfig.PURGE);
-        loopTime = (long) (InputService.getInput(properties, ModelConfig.TIME)
+        listOfProgramsToStart = InputService.getInput(properties, ModelConfig.START);
+        loopTimeOfMonitor = (long) (InputService.getInput(properties, ModelConfig.TIME)
                                        .stream().mapToLong(Long::parseLong)
                                        .min().getAsLong() * 1000);
     }
 
 
     @Getter
-    private static long loopTime = 60;
+    private static long loopTimeOfMonitor = -1;
     @Getter
-    private static Set<String> listOfStartPrograms;
+    private static Set<String> listOfProgramsToStart;
     @Getter
     private static Set<String> listOfFormatFiles;
     @Getter
@@ -33,6 +33,6 @@ public class AlfredBackpack {
     @Getter
     private static Set<String> purgeDirectories;
     @Getter @Setter
-    private static boolean runMonitor = false;
+    private static boolean isMonitored = false;
 
 }

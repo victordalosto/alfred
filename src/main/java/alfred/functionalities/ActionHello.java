@@ -1,15 +1,13 @@
 package alfred.functionalities;
+import alfred.interfaces.AlfredActionInterface;
 
-import alfred.interfaces.AlfredAction;
-import alfred.models.AlfredBackpack;
 
-public class ActionHello implements AlfredAction {
+public class ActionHello implements AlfredActionInterface {
 
     public void executa() {
-        System.out.println("Alfred is running");
-        System.out.println("Running for: " + AlfredBackpack.getDestinyDirectories());
-        System.out.println("COMMANDS: start  |  zip <password>  |  unzip <password>  |  purge");
-        System.out.println();
+        System.out.println("ALFRED is up and Running at [" + System.getProperty("user.dir") + "]");
+        System.out.println("Commands: [  start  |  zip <password>  |  unzip <password>  |  purge  ]");
+        System.out.println("====");
     }
     
 }

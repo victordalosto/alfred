@@ -1,6 +1,6 @@
 package alfred.interfaces;
 
-public interface AlfredAction {
+public interface AlfredActionInterface {
 
     void executa();
     

@@ -13,31 +13,29 @@ import java.util.stream.Stream;
 import alfred.models.AlfredBackpack;
 
 
-public class CopyService extends TimerTask {
+public class CopyServiceTask extends TimerTask {
 
     @Override
     public void run() {
-        if (AlfredBackpack.isRunMonitor()) {
+        if (AlfredBackpack.isMonitored()) {
             Map<String, String> filesToCopy = mapValidFilesToCopy(AlfredBackpack.getMonitoredDirectories());
             Map<String, String> filesRemove = mapValidFilesToCopy(AlfredBackpack.getDestinyDirectories());
             filesToCopy.keySet().removeAll(filesRemove.keySet());
-            copy(filesToCopy);
+            copyContent(filesToCopy);
         }
     }
 
 
 
-    private Map<String, String> mapValidFilesToCopy(Set<String> paths) {
+    private Map<String, String> mapValidFilesToCopy(Set<String> setOfPaths) {
         Map<String, String> map = new HashMap<>();
-        paths.forEach(p ->  {
-            map.putAll(getSetOfValidFiles(p));
-        });
+        setOfPaths.forEach(path -> map.putAll(getValidFiles(path)));
         return map;
     }
 
 
 
-    private Map<String, String> getSetOfValidFiles(String dir) {
+    private Map<String, String> getValidFiles(String dir) {
         try (Stream<Path> stream = Files.walk(Paths.get(dir))) {
             return stream
               .filter(file -> Files.isRegularFile(file))
@@ -54,7 +52,7 @@ public class CopyService extends TimerTask {
 
     
 
-    private void copy(Map<String, String> filesToCopy) {
+    private void copyContent(Map<String, String> filesToCopy) {
         filesToCopy.forEach((key, filePath) -> {
             AlfredBackpack.getDestinyDirectories().forEach(dest -> {
                 try {

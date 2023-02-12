@@ -8,8 +8,6 @@ import java.util.zip.ZipInputStream;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.spec.SecretKeySpec;
-
-import alfred.functionalities.ActionDirectories;
 import alfred.models.AlfredBackpack;
 
 
@@ -17,11 +15,12 @@ public class UnzipDirectory {
 
     private static final String ALGORITHM = "AES";
 
+    
     public static void executa(String chave) {
-        byte [] KEY = HashPassword.hash(chave);
+        byte [] KEY = Hash.generateHash(chave);
         AlfredBackpack.getDestinyDirectories().forEach(dir -> {
             try {
-                String output = ActionDirectories.getValidName(dir);
+                String output = DirectoryService.getValidName(dir);
                 unzipDirectory(new File(dir + ".zip"), new File(output), KEY);
             } catch (Exception e) {
                 e.printStackTrace();
