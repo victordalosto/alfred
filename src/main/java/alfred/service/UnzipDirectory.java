@@ -20,7 +20,7 @@ public class UnzipDirectory {
         byte [] KEY = Hash.generateHash(chave);
         AlfredBackpack.getDestinyDirectories().forEach(dir -> {
             try {
-                String output = DirectoryService.getValidName(dir);
+                String output = dir;
                 unzipDirectory(new File(dir + ".zip"), new File(output), KEY);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -49,7 +49,7 @@ public class UnzipDirectory {
                     }
                 }
             }
-            System.out.println("  > Arquivo descompactado: " + outputDirectory);
+            System.out.println("  > Arquivo descompactado: " + outputDirectory.getAbsolutePath());
         }
     }
 }

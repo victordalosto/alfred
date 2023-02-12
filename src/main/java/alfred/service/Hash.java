@@ -26,5 +26,7 @@ public class Hash {
         }
         return generatedPassword.getBytes();
     }
+
+    
     
 }

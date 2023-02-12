@@ -13,10 +13,10 @@ public class AlfredAction {
 
 
     public static void start() {
-        System.out.print("  > Iniciando Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() +"]");
-        AlfredBackpack.setMonitored(true);
+        System.out.print("  > Iniciando Alfred Programs [" + AlfredBackpack.getMonitoredDirectories() +"]");
         AlfredBackpack.getListOfProgramsToStart().forEach(filePath -> {
             try {
+                System.out.println("  > Executando programa: " + filePath);
                 ProcessBuilder builder;
                 if (filePath.toString().toLowerCase().endsWith(".bat"))
                     builder = new ProcessBuilder("cmd.exe", "/c", "start", "cmd.exe", "/c", filePath);
@@ -24,11 +24,17 @@ public class AlfredAction {
                     builder = new ProcessBuilder(Arrays.asList("cmd", "/c", "start", filePath));
                 builder.directory(new File(filePath).getParentFile());
                 builder.start();
-                System.out.println("  > Executando programa: " + filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+
+
+    public static void monitor() {
+        System.out.print("  > Iniciando Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() +"]");
+        AlfredBackpack.setMonitored(true);
     }
 
 

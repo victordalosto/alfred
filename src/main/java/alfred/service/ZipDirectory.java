@@ -14,14 +14,14 @@ import alfred.models.AlfredBackpack;
 public class ZipDirectory {
 
     private static final String ALGORITHM = "AES";
-    // private static final byte[] KEY = "passwordpasswordpassword".getBytes();
 
 
     public static void executa(String chave) {
         byte [] KEY = Hash.generateHash(chave);
         AlfredBackpack.getDestinyDirectories().forEach(dir -> {
             try {
-                String output = DirectoryService.getValidName(dir + ".zip");
+                String output = dir + ".zip";
+                DirectoryService.renameFile(output);
                 zipDirectory(new File(dir), new File(output), KEY);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -39,7 +39,7 @@ public class ZipDirectory {
         try (ZipOutputStream zos = new ZipOutputStream(new CipherOutputStream(fos, cipher))) {
             zip(directory, directory, zos);
         }
-        System.out.println("  > Arquivo zipado: " + zipFile);
+        System.out.println("  > Arquivo zipado: " + zipFile.getAbsolutePath());
     }
 
 

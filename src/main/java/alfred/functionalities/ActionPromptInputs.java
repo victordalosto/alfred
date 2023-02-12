@@ -26,6 +26,12 @@ public class ActionPromptInputs implements AlfredActionInterface {
     }
 
 
+    public static void monitor(String input) {
+        if (input.toLowerCase().startsWith("monitor"))
+            AlfredAction.monitor();
+    }
+
+
     public static void purge(String input) {
         if (input.toLowerCase().startsWith("purge"))
             AlfredAction.purge();

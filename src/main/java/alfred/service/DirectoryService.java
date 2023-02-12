@@ -17,23 +17,41 @@ public class DirectoryService {
                 e.printStackTrace();
             }
     }
+
+
+
+    public static void renameFile(String target) {
+        if (new File(target).isFile()) {
+            String renameTarget = getValidName(target);
+            try {
+                Files.move(Paths.get(target), Paths.get(renameTarget));
+                System.out.println("Renaming old: " + target + " -> " + renameTarget);
+            } catch (IOException e) {
+                System.out.println("Não foi possível zipar o arquivo!!");
+                e.printStackTrace();
+            }
+        }
+    }
     
 
+
     public static String getValidName(String path) {
+        String temp = path;
         for (int i=0; i<256; i++) {
-            if (!pathIsValidToBeCreated(new File(path))) {
-                return path;
-            }
+            if (pathDontExists(new File(temp)))
+                return temp;
             Path curPath = Paths.get(path);
-            path = Paths.get(curPath.getParent().toString(), 
-                   i + curPath.getFileName().toString()).toString();
+            temp = Paths.get(curPath.getParent().toString(), 
+                   i + "___" +curPath.getFileName().toString()).toString();
         }
-        throw new RuntimeException("Não foi possivel obter um valido nome para rodar arquivo.");
+        throw new RuntimeException("  > Não foi possivel obter um valido nome para rodar arquivo.");
     }
 
 
-    private static boolean pathIsValidToBeCreated(File file) {
-        return (file.isDirectory() || file.isFile());
+    private static boolean pathDontExists(File file) {
+        if (file.isDirectory() || file.isFile() || file.exists())
+            return false;
+        return true;
     }
 
 }
