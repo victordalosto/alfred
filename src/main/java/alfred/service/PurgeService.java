@@ -29,11 +29,11 @@ public class PurgeService {
         try (Stream<Path> stream = Files.walk(Paths.get(dir))) {
             return stream
               .filter(file -> AlfredBackpack.getListOfFormatFiles()
-                                           .stream()
-                                           .anyMatch(filter -> file.toString().toLowerCase()
-                                                .endsWith(filter.toString().toLowerCase())))
-                                           .map(Path::toFile)
-                                           .collect(Collectors.toList());
+                        .stream()
+                        .anyMatch(filter -> file.endsWith("details.csv") 
+                                         || file.toString().toLowerCase() .endsWith(filter.toString().toLowerCase())))
+                        .map(Path::toFile)
+                        .collect(Collectors.toList());
         } catch (IOException e){
             throw new RuntimeException(e);
         }

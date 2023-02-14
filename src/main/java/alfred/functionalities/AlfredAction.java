@@ -13,7 +13,6 @@ public class AlfredAction {
 
 
     public static void start() {
-        System.out.print("  > Iniciando Alfred Programs [" + AlfredBackpack.getMonitoredDirectories() +"]");
         AlfredBackpack.getListOfProgramsToStart().forEach(filePath -> {
             try {
                 System.out.println("  > Executando programa: " + filePath);
@@ -28,19 +27,19 @@ public class AlfredAction {
                 e.printStackTrace();
             }
         });
+        System.out.println("  > Iniciado Alfred Programs [" + AlfredBackpack.getMonitoredDirectories() +"]");
     }
 
 
 
     public static void monitor() {
-        System.out.print("  > Iniciando Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() +"]");
         AlfredBackpack.setMonitored(true);
+        System.out.println("  > Iniciado Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() +"]");
     }
 
 
 
     public static void purge() {
-        System.out.println("  > Parando Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() + "]");
         AlfredBackpack.setMonitored(false);
         try {
             Thread.sleep(5000);
@@ -48,7 +47,8 @@ public class AlfredAction {
             e.printStackTrace();
         }
         PurgeService.limpa();
-        System.out.print("  > Diretorios deletado");
+        System.out.println("  > Parado Alfred Monitor [" + AlfredBackpack.getMonitoredDirectories() + "]");
+        System.out.println("  > Diretorios deletado");
     }
 
 
